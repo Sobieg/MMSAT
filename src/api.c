@@ -23,24 +23,24 @@
 //static int randpos;
 
 int
-crypto_sign_keypair(unsigned char *pk, unsigned char *sk){
+crypto_sign_keypair(int64 *pk, int64 *sk) {
 
-	int64 key[PASS_N];
-	gen_key(key);
+//	int64 key[PASS_N];
+	gen_key(sk);
 
   // printf("\n\nKey: ");
   // for(int i=0; i<PASS_N; i++)
   //   printf("%lld, ", ((long long int) key[i]));
 
-	int64 pubkey[PASS_N] = {0};
-	gen_pubkey(pubkey, key);
+//	int64 pubkey[PASS_N] = {0};
+	gen_pubkey(pk, sk);
 
   // printf("\n\nPubkey: ");
   // for(int i=0; i<PASS_N; i++)
   //   printf("%lld, ", ((long long int) pubkey[i]));
   
-  sk = (unsigned char*)key;
-  pk = (unsigned char*)pubkey;
+//  sk = (unsigned char*)key;
+//  pk = (unsigned char*)pubkey;
 
   return 0;
 }
@@ -50,7 +50,7 @@ crypto_sign_keypair(unsigned char *pk, unsigned char *sk){
 int
 crypto_sign(unsigned char *sm, unsigned long long *smlen,
             const unsigned char *m, unsigned long long mlen,
-            const unsigned char *sk){
+            const int64 *sk){
   int count;
   b_sparse_poly c;
   int64 y[PASS_N];
@@ -60,10 +60,10 @@ crypto_sign(unsigned char *sm, unsigned long long *smlen,
   crypto_hash_sha512(msg_digest, m, mlen);
 
   //convert
-  int64 key[PASS_N];
-  for(int i=0; i<PASS_N; i++){
-    key[i] = (int64)sk[i];
-  }
+//  int64 key[PASS_N];
+//  for(int i=0; i<PASS_N; i++){
+//    key[i] = sk[i];
+//  }
 
   count = 0;
   do {
@@ -77,7 +77,7 @@ crypto_sign(unsigned char *sm, unsigned long long *smlen,
     formatc(&c, sm);
 
     /* z = y += f*c */
-    bsparseconv(y, key, &c);
+    bsparseconv(y, sk, &c); //y is z now
     /* No modular reduction required. */
 
     count++;
@@ -112,8 +112,7 @@ crypto_sign(unsigned char *sm, unsigned long long *smlen,
 int
 crypto_sign_open(unsigned char *m, unsigned long long *mlen,
                  const unsigned char *sm, unsigned long long smlen,
-                 const unsigned char *pk){
-  int i;
+                 int64 *pk){
   b_sparse_poly c;
   int64 Fc[PASS_N] = {0};
   int64 Fz[PASS_N] = {0};
@@ -135,7 +134,7 @@ crypto_sign_open(unsigned char *m, unsigned long long *mlen,
   ntt(Fc, c.val);
   ntt(Fz, z); //smlen
 
-  for(i=0; i<PASS_t; i++) {
+  for(int i=0; i<PASS_t; i++) {
     Fz[S[i]] -= Fc[S[i]] * pk[S[i]];
   }
 
@@ -144,7 +143,7 @@ crypto_sign_open(unsigned char *m, unsigned long long *mlen,
   crypto_hash_sha512(msg_digest, sm, smlen);
   hash(h2, Fz, msg_digest);
 
-  for(i=0; i<HASH_BYTES; i++) {
+  for(int i=0; i<HASH_BYTES; i++) {
     if(h2[i] != m[i])
       return INVALID;
   }
