@@ -20,16 +20,16 @@
 #define CRYPTO_ALGNAME "UserDefinedAlgName"
 
 int
-crypto_sign_keypair(int64 *pk, int64 *sk);
+crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
 
 int
 crypto_sign(unsigned char *sm, unsigned long long *smlen,
             const unsigned char *m, unsigned long long mlen,
-            const int64 *sk);
+            const unsigned char *sk);
 
 int
 crypto_sign_open(unsigned char *m, unsigned long long *mlen,
                  const unsigned char *sm, unsigned long long smlen,
-                 int64 *pk);
+                 const unsigned char *pk);
 
 #endif /* api_h */

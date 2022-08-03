@@ -36,10 +36,8 @@
 #endif
 
 #ifndef TRIALS
-#define TRIALS 10
+#define TRIALS 10000
 #endif
-
-#define DEBUG 0
 
 #define MLEN 256
 
@@ -79,7 +77,7 @@ main(int argc, char **argv)
   //gen_key(key);
   int64 pubkey[PASS_N];
 
-    crypto_sign_keypair(pubkey, key);
+  crypto_sign_keypair((unsigned char*)pubkey, (unsigned char*)key);
   // convert
   // unsigned char sk[PASS_N] = {0};
   // for(int i=0; i<PASS_N; i++){
@@ -89,7 +87,7 @@ main(int argc, char **argv)
 #if DEBUG
   printf("sha512(key): ");
   //crypto_hash_sha512(h, (unsigned char*)key, sizeof(int64)*PASS_N);
-  crypto_hash_sha512(h, key, sizeof(int64)*PASS_N);
+  crypto_hash_sha512(h, sk, sizeof(int64)*PASS_N);
   for(i=0; i<HASH_BYTES; i++) {
     printf("%.2x", h[i]);
   }
@@ -112,12 +110,12 @@ main(int argc, char **argv)
    in[(i&0xff)]++; /* Hash a different message each time */
     //一个个sign
    //count += sign(h, z, key, in, MLEN);
-   count += crypto_sign(h, (unsigned long long*)z, in, MLEN, key);
+   count += crypto_sign(h, (unsigned long long*)z, in, MLEN, (unsigned char*)key);
 
 #if VERIFY
    //verify
    //nbver += (VALID == verify(h, z, pubkey, in, MLEN));
-   nbver += (VALID == crypto_sign_open(h, (unsigned long long*)z, in, MLEN, pubkey));
+   nbver += (VALID == crypto_sign_open(h, (unsigned long long*)z, in, MLEN, (unsigned char*)pubkey));
 #endif
   }
   printf("\n");
