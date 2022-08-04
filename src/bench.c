@@ -36,7 +36,7 @@
 #endif
 
 #ifndef TRIALS
-#define TRIALS 10
+#define TRIALS 10000
 #endif
 
 #define DEBUG 0
