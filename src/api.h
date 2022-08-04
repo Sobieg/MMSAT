@@ -12,12 +12,12 @@
 #define api_h
 
 //  Set these three values apropriately for your algorithm
+// todo: check if this right values
 #define CRYPTO_SECRETKEYBYTES 256
 #define CRYPTO_PUBLICKEYBYTES 85
 #define CRYPTO_BYTES 128
 
-// Change the algorithm name
-#define CRYPTO_ALGNAME "UserDefinedAlgName"
+#define CRYPTO_ALGNAME "MMSAT"
 
 int
 crypto_sign_keypair(int64 *pk, int64 *sk);

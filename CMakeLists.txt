@@ -11,7 +11,6 @@ set(PASS_SRC
         src/crypto_hash_sha512.c src/crypto_hash_sha512.h
         src/crypto_stream.c
         src/crypto_stream_salsa20.h
-        src/fastrandombytes.c src/fastrandombytes.h
         src/formatc.c src/formatc.h
         src/hash.c src/hash.h
         src/key.c

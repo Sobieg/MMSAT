@@ -30,8 +30,9 @@
 #include "bsparseconv.h"
 #include "ntt.h"
 #include "hash.h"
-#include "fastrandombytes.h"
+//#include "fastrandombytes.h"
 #include "pass.h"
+#include "rng.h"
 
 
 #define CLEAR(f) memset((f), 0, PASS_N*sizeof(int64))
@@ -44,7 +45,8 @@ static int randpos;
 int
 init_fast_prng()
 {
-  fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
+//  fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
+    randombytes((unsigned char *) randpool, RAND_LEN * sizeof(uint16));
   randpos = 0;
 
   return 0;
@@ -55,9 +57,11 @@ mknoise(int64 *y)
 {
   int i = 0;
   int x;
+//  randombytes(y, sizeof(int64) * PASS_N);
   while(i < PASS_N) {
     if(randpos == RAND_LEN) {
-      fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
+//      fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
+        randombytes(randpool, RAND_LEN*sizeof(uint16));
       randpos = 0;
     }
     x = randpool[randpos++];

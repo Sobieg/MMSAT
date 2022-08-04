@@ -76,6 +76,8 @@
 #define PASS_WISDOM "./data/1153_wisdom.dat"
 #endif
 
+//todo: new parameters from MMSAT paper
+
 
 #define UNSAFE_RAND_N (65536 - (65536 % PASS_N))
 #define UNSAFE_RAND_k (65536 - (65536 % (2 * PASS_k + 1)))

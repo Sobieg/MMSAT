@@ -13,7 +13,7 @@
 #include "formatc.h"
 #include "bsparseconv.h"
 #include "hash.h"
-#include "fastrandombytes.h"
+//#include "fastrandombytes.h"
 
 #define CLEAR(f) memset((f), 0, PASS_N*sizeof(int64))
 

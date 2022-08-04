@@ -48,7 +48,7 @@ gen_key(int64 *f)
     personalization_string[i] = 'z';
   }
   int security_strength = 48;
-  randombytes_init(entropy_input, personalization_string, security_strength);
+//  randombytes_init(entropy_input, personalization_string, security_strength);
 
   randombytes((unsigned char*)pool, RAND_LEN*sizeof(uint64));
 // test end
