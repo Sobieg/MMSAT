@@ -43,104 +43,100 @@ static uint16 randpool[RAND_LEN];
 static int randpos;
 
 int
-init_fast_prng()
-{
-//  fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
+init_fast_prng() {
     randombytes((unsigned char *) randpool, RAND_LEN * sizeof(uint16));
-  randpos = 0;
+    randpos = 0;
 
-  return 0;
+    return 0;
 }
 
 int
-mknoise(int64 *y)
-{
-  int i = 0;
-  int x;
+mknoise(int64 *y) {
+    int i = 0;
+    int x;
 //  randombytes(y, sizeof(int64) * PASS_N);
-  while(i < PASS_N) {
-    if(randpos == RAND_LEN) {
+    while (i < PASS_N) {
+        if (randpos == RAND_LEN) {
 //      fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
-        randombytes(randpool, RAND_LEN*sizeof(uint16));
-      randpos = 0;
+            randombytes(randpool, RAND_LEN * sizeof(uint16));
+            randpos = 0;
+        }
+        x = randpool[randpos++];
+
+        if (x >= UNSAFE_RAND_k) continue;
+
+        x &= (2 * PASS_k + 1);
+
+        y[i] = x - PASS_k;
+        i++;
     }
-    x = randpool[randpos++];
 
-    if(x >= UNSAFE_RAND_k) continue;
-
-    x &= (2*PASS_k + 1);
-
-    y[i] = x - PASS_k;
-    i++;
-  }
-
-  return 0;
+    return 0;
 }
 
 int
-reject(const int64 *z)
-{
-  int i;
+reject(const int64 *z) {
+    int i;
 
-  for(i=0; i<PASS_N; i++) {
-    if(abs(z[i]) > (PASS_k - PASS_b))
-      return 1;
-  }
+    for (i = 0; i < PASS_N; i++) {
+        if (abs(z[i]) > (PASS_k - PASS_b))
+            return 1;
+    }
 
-  return 0;
+    return 0;
 }
+
 
 int
 sign(unsigned char *h, int64 *z, const int64 *key,
-    const unsigned char *message, const int msglen)
-{
-  int count;
-  b_sparse_poly c;
-  int64 y[PASS_N];
-  int64 Fy[PASS_N];
-  unsigned char msg_digest[HASH_BYTES];
+     const unsigned char *message, const int msglen) {
+    int count;
+    b_sparse_poly c;
+    int64 y[PASS_N];
+    int64 Fy[PASS_N];
+    unsigned char msg_digest[HASH_BYTES];
 
-  crypto_hash_sha512(msg_digest, message, msglen);
+    crypto_hash_sha512(msg_digest, message, msglen);
 
-  count = 0;
-  do {
-    CLEAR(Fy);
+    count = 0;
+    do {
+        CLEAR(Fy);
 
-    mknoise(y);
-    ntt(Fy, y);
-    hash(h, Fy, msg_digest);
+        mknoise(y);
+        ntt(Fy, y);
+        hash(h, Fy, msg_digest);
 
-    CLEAR(c.val);
-    formatc(&c, h);
+        CLEAR(c.val);
+        formatc(&c, h);
 
-    /* z = y += f*c */
-    bsparseconv(y, key, &c);
-    /* No modular reduction required. */
+        /* z = y += f*c */
+        bsparseconv(y, key, &c);
+        /* No modular reduction required. */
 
-    count++;
-  } while (reject(y));
+        count++;
+    } while (reject(y));
 
 #if DEBUG
-  int i;
-  printf("\n\ny: ");
-  for(i=0; i<PASS_N; i++)
-    printf("%lld, ", ((long long int) y[i]));
-  printf("\n");
+    int i;
+    printf("\n\ny: ");
+    for(i=0; i<PASS_N; i++)
+      printf("%lld, ", ((long long int) y[i]));
+    printf("\n");
 
-  printf("\n\nFy: ");
-  for(i=0; i<PASS_N; i++)
-    printf("%lld, ", ((long long int) Fy[i]));
-  printf("\n");
+    printf("\n\nFy: ");
+    for(i=0; i<PASS_N; i++)
+      printf("%lld, ", ((long long int) Fy[i]));
+    printf("\n");
 
-  printf("\n\nc: ");
-  for(i=0; i<PASS_b; i++)
-    printf("(%lld, %lld) ", (long long int) c.ind[i],
-        (long long int) c.val[c.ind[i]]);
-  printf("\n");
+    printf("\n\nc: ");
+    for(i=0; i<PASS_b; i++)
+      printf("(%lld, %lld) ", (long long int) c.ind[i],
+          (long long int) c.val[c.ind[i]]);
+    printf("\n");
 #endif
 
-  memcpy(z, y, PASS_N*sizeof(int64));
+    memcpy(z, y, PASS_N * sizeof(int64));
 
-  return count;
+    return count;
 }
 
