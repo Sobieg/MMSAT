@@ -28,18 +28,14 @@
 
 #define NTT_LEN (PASS_N-1)
 
-static const int64 perm[NTT_LEN+1] = {
-#include PASS_PERMUTATION
-    , 1
-  };
+static const int64 perm[NTT_LEN + 1] = {
+#include PASS_PERMUTATION, 1
+};
 
-int
-ntt_setup();
+int ntt_setup();
 
-int
-ntt_cleanup();
+int ntt_cleanup();
 
-int
-ntt(int64 *wS, const int64 *w);
+int ntt(int64 *wS, const int64 *w);
 
 #endif

@@ -23,19 +23,17 @@
 #include "pass_types.h"
 #include "poly.h"
 
-int
-poly_cmod(int64 *a)
-{
-  int64 i;
-  for (i=0; i<PASS_N; i++) {
-    if (a[i] >= 0) {
-      a[i] %= PASS_p;
-    } else {
-      a[i] = PASS_p + (a[i] % PASS_p);
+int poly_cmod(int64 *a) {
+    int64 i;
+    for (i = 0; i < PASS_N; i++) {
+        if (a[i] >= 0) {
+            a[i] %= PASS_p;
+        } else {
+            a[i] = PASS_p + (a[i] % PASS_p);
+        }
+        if (a[i] > ((PASS_p - 1) / 2))
+            a[i] -= PASS_p;
     }
-    if (a[i] > ((PASS_p-1)/2))
-      a[i] -= PASS_p;
-  }
 
-  return 0;
+    return 0;
 }

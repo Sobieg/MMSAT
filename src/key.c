@@ -30,58 +30,62 @@
 
 #define RAND_LEN (64)
 
-int
-gen_key(int64 *f)
-{
-  int i = 0;
-  int j = 0;
-  uint64 r = 0;
-  uint64 pool[RAND_LEN];
+int gen_key(int64 *f) {
+    int i = 0;
+    int j = 0;
+    uint64 r = 0;
+    uint64 pool[RAND_LEN];
 
 // This is the test input string
-  unsigned char entropy_input[48] = {0};
-  for (int i=0; i<48; i++){
-    entropy_input[i] = 't';
-  }	
-  unsigned char personalization_string[48] = {0};
-  for (int i=0; i<48; i++){
-    personalization_string[i] = 'z';
-  }
-  int security_strength = 48;
+    unsigned char entropy_input[48] = {0};
+    for (int i = 0; i < 48; i++) {
+        entropy_input[i] = 't';
+    }
+    unsigned char personalization_string[48] = {0};
+    for (int i = 0; i < 48; i++) {
+        personalization_string[i] = 'z';
+    }
+    int security_strength = 48;
 //  randombytes_init(entropy_input, personalization_string, security_strength);
 
-  randombytes((unsigned char*)pool, RAND_LEN*sizeof(uint64));
+    randombytes((unsigned char *) pool, RAND_LEN * sizeof(uint64));
 // test end
 
-  while(i < PASS_N) {
-    if(j == RAND_LEN) {
-      
-      randombytes((unsigned char*)pool, RAND_LEN*sizeof(uint64));
-      j = 0;
-    }
-    if(!r) r = pool[j++];
-    switch(r & 0x03) {
-      case 1: f[i] = -1; break;
-      case 2: f[i] =  0; break;
-      case 3: f[i] =  1; break;
-      default:  r >>= 2; continue;
-    }
-    r >>= 2;
-    i++;
-  }
+    while (i < PASS_N) {
+        if (j == RAND_LEN) {
 
-  return 0;
+            randombytes((unsigned char *) pool, RAND_LEN * sizeof(uint64));
+            j = 0;
+        }
+        if (!r) r = pool[j++];
+        switch (r & 0x03) {
+            case 1:
+                f[i] = -1;
+                break;
+            case 2:
+                f[i] = 0;
+                break;
+            case 3:
+                f[i] = 1;
+                break;
+            default:
+                r >>= 2;
+                continue;
+        }
+        r >>= 2;
+        i++;
+    }
+
+    return 0;
 }
 
-int
-gen_pubkey(int64 *pkey, int64 *skey)
-{
-  int i;
-  int64 Ff[PASS_N] = {0};
-  ntt(Ff, skey);
-  for(i=0; i<PASS_t; i++)
-    pkey[S[i]] = Ff[S[i]];
+int gen_pubkey(int64 *pkey, int64 *skey) {
+    int i;
+    int64 Ff[PASS_N] = {0};
+    ntt(Ff, skey);
+    for (i = 0; i < PASS_t; i++)
+        pkey[S[i]] = Ff[S[i]];
 
-  return 0;
+    return 0;
 }
 
