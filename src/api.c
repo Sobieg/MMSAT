@@ -23,8 +23,7 @@
 //static int randpos;
 
 
-int
-crypto_sign_keypair(int64 *pk, int64 *sk) {
+int crypto_sign_keypair(int64 *pk, int64 *sk) {
 
 //	int64 key[PASS_N];
     gen_key(sk);
@@ -48,19 +47,16 @@ crypto_sign_keypair(int64 *pk, int64 *sk) {
 
 
 // sm-->h, smlen-->z, m-->message, mlen-->msglen, sk-->key
-int
-crypto_sign(unsigned char *sm, unsigned long long *smlen,
-            const unsigned char *m, unsigned long long mlen,
-            const int64 *sk) {
+int crypto_sign(unsigned char *sm, unsigned long long *smlen,
+                const unsigned char *m, unsigned long long mlen,
+                const int64 *sk) {
     return sign(sm, smlen, sk, m, mlen);
 }
 
-
 // m-->h, mlen-->z
-int
-crypto_sign_open(unsigned char *m, unsigned long long *mlen,
-                 const unsigned char *sm, unsigned long long smlen,
-                 int64 *pk) {
+int crypto_sign_open(unsigned char *m, unsigned long long *mlen,
+                     const unsigned char *sm, unsigned long long smlen,
+                     int64 *pk) {
     return verify(m, mlen, pk, sm, smlen);
 }
 

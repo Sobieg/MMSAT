@@ -74,8 +74,7 @@ mknoise(int64 *y) {
     return 0;
 }
 
-int
-reject(const int64 *z) {
+int reject(const int64 *z) {
     int i;
 
     for (i = 0; i < PASS_N; i++) {
@@ -87,9 +86,8 @@ reject(const int64 *z) {
 }
 
 
-int
-sign(unsigned char *h, int64 *z, const int64 *key,
-     const unsigned char *message, const int msglen) {
+int sign(unsigned char *h, int64 *z, const int64 *key,
+         const unsigned char *message, const int msglen) {
     int count;
     b_sparse_poly c;
     int64 y[PASS_N];

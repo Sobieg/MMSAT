@@ -36,8 +36,8 @@ typedef uint64_t uint64;
 typedef double fftw_real;
 
 typedef struct {
-  unsigned int ind[PASS_b];
-  int64 val[PASS_N];
+    unsigned int ind[PASS_b];
+    int64 val[PASS_N];
 } b_sparse_poly;
 
 #endif

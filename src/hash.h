@@ -26,7 +26,6 @@
 
 #define HASH_BYTES 64
 
-int
-hash(unsigned char *h, const int64 *eval, const unsigned char *msg_digest);
+int hash(unsigned char *h, const int64 *eval, const unsigned char *msg_digest);
 
 #endif

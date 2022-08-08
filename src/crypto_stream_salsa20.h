@@ -5,9 +5,9 @@
 #define crypto_stream_salsa20_NONCEBYTES 8
 
 int crypto_stream(
-        unsigned char *c,unsigned long long clen,
-  const unsigned char *n,
-  const unsigned char *k
+        unsigned char *c, unsigned long long clen,
+        const unsigned char *n,
+        const unsigned char *k
 );
 
 //int crypto_stream_salsa20_amd64_xmm6(

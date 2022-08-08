@@ -131,58 +131,54 @@ ntt(int64 *Ff, const int64 *f)
 
 #else /* Not using FFTW */
 
-int
-
-ntt_setup() {
-  NTT_INITIALIZED = 1;
-  return 0;
+int ntt_setup() {
+    NTT_INITIALIZED = 1;
+    return 0;
 }
 
-int
-ntt_cleanup() {
-  NTT_INITIALIZED = 0;
-  return 0;
+int ntt_cleanup() {
+    NTT_INITIALIZED = 0;
+    return 0;
 }
 
-int
-ntt(int64 *Fw, const int64 *w)
-{
-  int64 i;
-  int64 j;
+int ntt(int64 *Fw, const int64 *w) {
+    int64 i;
+    int64 j;
 
-int64 nth_roots[NTT_LEN] = {
+    int64 nth_roots[NTT_LEN] = {
 #include PASS_RADER_POLY
-  };
+    };
 
-  /* Rader DFT: Length N-1 convolution of w (permuted according to
-   * PASS_PERMUTATION) and the vector [g, g^2, g^3, ... g^N-1].
-   *
-   * TODO: Certainly faster to always store coefficients in multiplicative
-   * order and just perform permutation when publishing z or extracting
-   * coefficients.
-   */
+    /* Rader DFT: Length N-1 convolution of w (permuted according to
+     * PASS_PERMUTATION) and the vector [g, g^2, g^3, ... g^N-1].
+     *
+     * TODO: Certainly faster to always store coefficients in multiplicative
+     * order and just perform permutation when publishing z or extracting
+     * coefficients.
+     */
 
-  for (i = 0; i < NTT_LEN; i++) {
-    Fw[perm[i]] += w[0]; /* Each coefficient of Fw gets a w[0] contribution */
+    for (i = 0; i < NTT_LEN; i++) {
+        Fw[perm[i]] += w[0]; /* Each coefficient of Fw gets a w[0] contribution */
 
-    if (w[perm[i]] == 0) continue;
+        if (w[perm[i]] == 0) continue;
 
-    for (j = i; j < NTT_LEN; j++) {
-      Fw[perm[NTT_LEN-j]] += (w[perm[i]] * nth_roots[j-i]);
+        for (j = i; j < NTT_LEN; j++) {
+            Fw[perm[NTT_LEN - j]] += (w[perm[i]] * nth_roots[j - i]);
+        }
+
+        for (j = 0; j < i; j++) {
+            Fw[perm[NTT_LEN - j]] += (w[perm[i]] * nth_roots[NTT_LEN + j - i]);
+        }
     }
 
-    for (j = 0; j < i; j++) {
-      Fw[perm[NTT_LEN-j]] += (w[perm[i]] * nth_roots[NTT_LEN+j-i]);
+    /* Fw[0] (evaluation of w at 1). */
+    for (i = 0; i < PASS_N; i++) {
+        Fw[0] += w[i];
     }
-  }
 
-  /* Fw[0] (evaluation of w at 1). */
-  for (i = 0; i < PASS_N; i++) {
-    Fw[0] += w[i];
-  }
+    poly_cmod(Fw);
 
-  poly_cmod(Fw);
-
-  return 0;
+    return 0;
 }
+
 #endif

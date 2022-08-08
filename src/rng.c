@@ -4,10 +4,12 @@
 
 
 #if defined(__APPLE__)
+
 #include <sys/random.h>
+
 #endif
-int
-randombytes(unsigned char *x, unsigned long long xlen) {
+
+int randombytes(unsigned char *x, unsigned long long xlen) {
 #if defined(__APPLE__)
     unsigned long long tail = xlen;
     unsigned long long multiplicator = 0;

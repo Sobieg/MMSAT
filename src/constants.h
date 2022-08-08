@@ -39,7 +39,7 @@
 #define PASS_WISDOM "./data/433_wisdom.dat"
 #endif
 
-#if PASS_N ==  577
+#if PASS_N == 577
 #define PASS_p 743177
 #define PASS_g 296108
 #define PASS_k 16383
