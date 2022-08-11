@@ -1,5 +1,5 @@
 /*
- * CPASSREF/verify.c
+ * CPASSREF/verify_one_signature.c
  *
  *  Copyright 2013 John M. Schanck
  *
@@ -32,8 +32,8 @@
 
 #define CLEAR(f) memset((f), 0, PASS_N*sizeof(int64))
 
-int verify(const unsigned char *h, const int64 *z, const int64 *pubkey,
-           const unsigned char *message, const int msglen) {
+int verify_one_signature(const unsigned char *h, const uint64 *z, const int64 *pubkey,
+                         const unsigned char *message, const int msglen) {
     int i;
     b_sparse_poly c;
     int64 Fc[PASS_N] = {0};
@@ -67,3 +67,6 @@ int verify(const unsigned char *h, const int64 *z, const int64 *pubkey,
     return VALID;
 }
 
+int verify() {
+    return INVALID;
+}

@@ -113,8 +113,8 @@ int main(int argc, char **argv) {
         count += crypto_sign(h, (unsigned long long *) z, in, MLEN, key);
 
 #if VERIFY
-        //verify
-        //nbver += (VALID == verify(h, z, pubkey, in, MLEN));
+        //verify_one_signature
+        //nbver += (VALID == verify_one_signature(h, z, pubkey, in, MLEN));
         nbver += (VALID == crypto_sign_open(h, (unsigned long long *) z, in, MLEN, pubkey));
 #endif
     }

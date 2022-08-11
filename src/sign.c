@@ -58,7 +58,7 @@ mknoise(int64 *y) {
     while (i < PASS_N) {
         if (randpos == RAND_LEN) {
 //      fastrandombytes((unsigned char*)randpool, RAND_LEN*sizeof(uint16));
-            randombytes(randpool, RAND_LEN * sizeof(uint16));
+            randombytes((unsigned char *) randpool, RAND_LEN * sizeof(uint16));
             randpos = 0;
         }
         x = randpool[randpos++];
@@ -78,7 +78,7 @@ int reject(const int64 *z) {
     int i;
 
     for (i = 0; i < PASS_N; i++) {
-        if (abs(z[i]) > (PASS_k - PASS_b))
+        if (labs(z[i]) > (PASS_k - PASS_b))
             return 1;
     }
 
@@ -86,8 +86,8 @@ int reject(const int64 *z) {
 }
 
 
-int sign(unsigned char *h, int64 *z, const int64 *key,
-         const unsigned char *message, const int msglen) {
+int sign(unsigned char *h, uint64 *z, const int64 *key,
+         const unsigned char *message, const unsigned long long int msglen) {
     int count;
     b_sparse_poly c;
     int64 y[PASS_N];

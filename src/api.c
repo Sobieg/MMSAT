@@ -57,7 +57,14 @@ int crypto_sign(unsigned char *sm, unsigned long long *smlen,
 int crypto_sign_open(unsigned char *m, unsigned long long *mlen,
                      const unsigned char *sm, unsigned long long smlen,
                      int64 *pk) {
-    return verify(m, mlen, pk, sm, smlen);
+    return verify_one_signature(m, mlen, pk, sm, smlen);
 }
 
 
+int crypto_aggregate() {
+    return agregate();
+}
+
+int crypto_aggregated_open() {
+    return verify();
+}

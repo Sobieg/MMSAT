@@ -23,7 +23,7 @@
 #define CPASSREF_PASS_H_
 
 
-/* Return values for verify */
+/* Return values for verify_one_signature */
 #define VALID 0
 #define INVALID (-1)
 
@@ -42,10 +42,14 @@ int mknoise(int64 *y);
 
 int reject(const int64 *z);
 
-int sign(unsigned char *h, int64 *z, const int64 *key,
-         const unsigned char *message, const int msglen);
+int sign(unsigned char *h, uint64 *z, const int64 *key,
+         const unsigned char *message, const unsigned long long int msglen);
 
-int verify(const unsigned char *h, const int64 *z, const int64 *pubkey,
-           const unsigned char *message, const int msglen);
+int verify_one_signature(const unsigned char *h, const uint64 *z, const int64 *pubkey,
+                         const unsigned char *message, const int msglen);
+
+int agregate();
+
+int verify();
 
 #endif

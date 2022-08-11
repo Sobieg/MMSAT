@@ -31,7 +31,6 @@
 #define RAND_LEN (64)
 
 int gen_key(int64 *f) {
-    int i = 0;
     int j = 0;
     uint64 r = 0;
     uint64 pool[RAND_LEN];
@@ -51,7 +50,8 @@ int gen_key(int64 *f) {
     randombytes((unsigned char *) pool, RAND_LEN * sizeof(uint64));
 // test end
 
-    while (i < PASS_N) {
+
+    for (int i = 0; i < PASS_N;) {
         if (j == RAND_LEN) {
 
             randombytes((unsigned char *) pool, RAND_LEN * sizeof(uint64));

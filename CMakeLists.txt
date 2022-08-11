@@ -21,7 +21,8 @@ set(PASS_SRC
         src/randombytes.c src/randombytes.h
         src/rng.c src/rng.h
         src/sign.c
-        src/verify.c)
+        src/verify.c
+        src/agregate.c)
 
 include_directories(src)
 
