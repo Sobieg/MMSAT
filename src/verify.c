@@ -28,12 +28,13 @@
 #include "formatc.h"
 #include "ntt.h"
 #include "pass.h"
+#include "api.h"
 
 
 #define CLEAR(f) memset((f), 0, PASS_N*sizeof(int64))
 
-int verify_one_signature(const unsigned char *h, const uint64 *z, const int64 *pubkey,
-                         const unsigned char *message, const int msglen) {
+int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pubkey, const unsigned char *message,
+                         uint64 msglen, enum algname scheme) {
     int i;
     b_sparse_poly c;
     int64 Fc[PASS_N] = {0};
@@ -56,8 +57,8 @@ int verify_one_signature(const unsigned char *h, const uint64 *z, const int64 *p
 
     poly_cmod(Fz);
 
-    crypto_hash_sha512(msg_digest, message, msglen);
-    hash(h2, Fz, msg_digest);
+//    crypto_hash_sha512(msg_digest, message, msglen);
+    hashc(h2, Fz, message, msglen, scheme);
 
     for (i = 0; i < HASH_BYTES; i++) {
         if (h2[i] != h[i])

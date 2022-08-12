@@ -46,18 +46,14 @@ int crypto_sign_keypair(int64 *pk, int64 *sk) {
 }
 
 
-// sm-->h, smlen-->z, m-->message, mlen-->msglen, sk-->key
-int crypto_sign(unsigned char *sm, unsigned long long *smlen,
-                const unsigned char *m, unsigned long long mlen,
-                const int64 *sk) {
-    return sign(sm, smlen, sk, m, mlen);
+int crypto_sign(unsigned char *h, long long int *z, const unsigned char *msg, unsigned long long msglen,
+                const int64 *sk, enum algname scheme) {
+    return sign(h, z, sk, msg, msglen, scheme);
 }
 
-// m-->h, mlen-->z
-int crypto_sign_open(unsigned char *m, unsigned long long *mlen,
-                     const unsigned char *sm, unsigned long long smlen,
-                     int64 *pk) {
-    return verify_one_signature(m, mlen, pk, sm, smlen);
+int crypto_sign_open(unsigned char *h, long long int *z, const unsigned char *sm, unsigned long long smlen,
+                     int64 *pk, enum algname scheme) {
+    return verify_one_signature(h, z, pk, sm, smlen, scheme);
 }
 
 

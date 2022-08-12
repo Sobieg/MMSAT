@@ -22,6 +22,7 @@
 #ifndef CPASSREF_PASS_H_
 #define CPASSREF_PASS_H_
 
+#include "api.h"
 
 /* Return values for verify_one_signature */
 #define VALID 0
@@ -42,11 +43,12 @@ int mknoise(int64 *y);
 
 int reject(const int64 *z);
 
-int sign(unsigned char *h, uint64 *z, const int64 *key,
-         const unsigned char *message, const unsigned long long int msglen);
+int
+sign(unsigned char *h, int64 *z, const int64 *key, const unsigned char *message, const unsigned long long int msglen,
+     enum algname scheme);
 
-int verify_one_signature(const unsigned char *h, const uint64 *z, const int64 *pubkey,
-                         const unsigned char *message, const int msglen);
+int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pubkey, const unsigned char *message,
+                         uint64 msglen, enum algname scheme);
 
 int agregate();
 

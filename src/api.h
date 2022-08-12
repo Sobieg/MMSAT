@@ -17,17 +17,19 @@
 #define CRYPTO_PUBLICKEYBYTES 85
 #define CRYPTO_BYTES 128
 
-#define CRYPTO_ALGNAME "MMSAT"
+//#define CRYPTO_ALGNAME "MMSAT"
+
+enum algname {
+    PASS, MMSA, MMSAT, MMSATK
+};
 
 int crypto_sign_keypair(int64 *pk, int64 *sk);
 
-int crypto_sign(unsigned char *sm, unsigned long long *smlen,
-                const unsigned char *m, unsigned long long mlen,
-                const int64 *sk);
+int crypto_sign(unsigned char *h, long long int *z, const unsigned char *msg, unsigned long long msglen,
+                const int64 *sk, enum algname scheme);
 
-int crypto_sign_open(unsigned char *m, unsigned long long *mlen,
-                     const unsigned char *sm, unsigned long long smlen,
-                     int64 *pk);
+int crypto_sign_open(unsigned char *h, long long int *z, const unsigned char *sm, unsigned long long smlen,
+                     int64 *pk, enum algname scheme);
 
 int crypto_aggregate();
 

@@ -86,15 +86,16 @@ int reject(const int64 *z) {
 }
 
 
-int sign(unsigned char *h, uint64 *z, const int64 *key,
-         const unsigned char *message, const unsigned long long int msglen) {
+int
+sign(unsigned char *h, int64 *z, const int64 *key, const unsigned char *message, const unsigned long long int msglen,
+     enum algname scheme) {
     int count;
     b_sparse_poly c;
     int64 y[PASS_N];
     int64 Fy[PASS_N];
-    unsigned char msg_digest[HASH_BYTES];
+//    unsigned char msg_digest[HASH_BYTES];
 
-    crypto_hash_sha512(msg_digest, message, msglen);
+//    crypto_hash_sha512(msg_digest, message, msglen);
 
     count = 0;
     do {
@@ -102,7 +103,7 @@ int sign(unsigned char *h, uint64 *z, const int64 *key,
 
         mknoise(y);
         ntt(Fy, y);
-        hash(h, Fy, msg_digest);
+        hashc(h, Fy, message, msglen, scheme);
 
         CLEAR(c.val);
         formatc(&c, h);

@@ -110,12 +110,12 @@ int main(int argc, char **argv) {
         in[(i & 0xff)]++; /* Hash a different message each time */
         //一个个sign
         //count += sign(h, z, key, in, MLEN);
-        count += crypto_sign(h, (unsigned long long *) z, in, MLEN, key);
+        count += crypto_sign(h, z, in, MLEN, key, PASS);
 
 #if VERIFY
         //verify_one_signature
         //nbver += (VALID == verify_one_signature(h, z, pubkey, in, MLEN));
-        nbver += (VALID == crypto_sign_open(h, (unsigned long long *) z, in, MLEN, pubkey));
+        nbver += (VALID == crypto_sign_open(h, z, in, MLEN, pubkey, PASS));
 #endif
     }
     printf("\n");

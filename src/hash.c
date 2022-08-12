@@ -1,5 +1,5 @@
 /*
- * CPASSREF/hash.c
+ * CPASSREF/hashc.c
  *
  *  Copyright 2013 John M. Schanck
  *
@@ -26,15 +26,17 @@
 #include "hash.h"
 #include "pass.h"
 
-int hash(unsigned char *h, const int64 *y, const unsigned char *msg_digest) {
+int hashc(unsigned char *h, const int64 *eval, const unsigned char *msg, uint64 msglen, enum algname scheme) {
     int i;
     unsigned char in[PASS_t + HASH_BYTES];
     unsigned char *pos = in + HASH_BYTES;
 
-    memcpy(in, msg_digest, HASH_BYTES);
+
+    crypto_hash_sha512(in, msg, msglen);
+//    memcpy(in, msg, HASH_BYTES);
 
     for (i = 0; i < PASS_t; i++) {
-        *pos = (unsigned char) (y[S[i]] & 0xff);
+        *pos = (unsigned char) (eval[S[i]] & 0xff);
         pos++;
     }
 

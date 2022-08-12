@@ -1,5 +1,5 @@
 /*
- * CPASSREF/hash.h
+ * CPASSREF/hashc.h
  *
  *  Copyright 2013 John M. Schanck
  *
@@ -22,10 +22,12 @@
 #ifndef CPASSREF_HASH_H_
 #define CPASSREF_HASH_H_
 
+#include "api.h"
 #include "crypto_hash_sha512.h"
 
 #define HASH_BYTES 64
 
-int hash(unsigned char *h, const int64 *eval, const unsigned char *msg_digest);
+
+int hashc(unsigned char *h, const int64 *eval, const unsigned char *msg, uint64 msglen, enum algname scheme);
 
 #endif
