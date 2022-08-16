@@ -25,8 +25,9 @@ enum algname {
 
 int crypto_sign_keypair(int64 *pk, int64 *sk);
 
-int crypto_sign(unsigned char *h, long long int *z, const unsigned char *msg, unsigned long long msglen,
-                const int64 *sk, enum algname scheme);
+int
+crypto_sign(unsigned char *h, long long int *z, const unsigned char *msg, unsigned long long msglen, const int64 *sk,
+            const int64 *pk, enum algname scheme);
 
 int crypto_sign_open(unsigned char *h, long long int *z, const unsigned char *sm, unsigned long long smlen,
                      int64 *pk, enum algname scheme);

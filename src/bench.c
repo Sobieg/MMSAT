@@ -6,7 +6,7 @@
  *  This file is part of CPASSREF.
  *
  *  CPASSREF is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
+ *  it under the terms of the GNU General Public License as published by //-V1042
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
     int64 key[PASS_N];
     int64 *z;
     unsigned char in[MLEN + 1] = {0};
-    unsigned char h[HASH_BYTES];
+    unsigned char h[HASH_BYTES] = {0};
 
     memset(in, '0', MLEN);
     z = malloc(PASS_N * sizeof(int64));
@@ -110,12 +110,12 @@ int main(int argc, char **argv) {
         in[(i & 0xff)]++; /* Hash a different message each time */
         //一个个sign
         //count += sign(h, z, key, in, MLEN);
-        count += crypto_sign(h, z, in, MLEN, key, PASS);
+        count += crypto_sign(h, z, in, MLEN, key, pubkey, MMSAT);
 
 #if VERIFY
         //verify_one_signature
         //nbver += (VALID == verify_one_signature(h, z, pubkey, in, MLEN));
-        nbver += (VALID == crypto_sign_open(h, z, in, MLEN, pubkey, PASS));
+        nbver += (VALID == crypto_sign_open(h, z, in, MLEN, pubkey, MMSAT));
 #endif
     }
     printf("\n");

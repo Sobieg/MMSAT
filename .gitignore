@@ -141,3 +141,5 @@ _deps
 .idea
 
 bin/bench
+
+.PVS-Studio/

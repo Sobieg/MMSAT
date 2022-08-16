@@ -28,6 +28,7 @@
 #define HASH_BYTES 64
 
 
-int hashc(unsigned char *h, const int64 *eval, const unsigned char *msg, uint64 msglen, enum algname scheme);
+int hashc(unsigned char *h, const int64 *com, const int64 *pk, const unsigned char *msg, uint64 msglen,
+          enum algname scheme);
 
 #endif

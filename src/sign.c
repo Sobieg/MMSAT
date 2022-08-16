@@ -6,7 +6,7 @@
  *  This file is part of CPASSREF.
  *
  *  CPASSREF is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
+ *  it under the terms of the GNU General Public License as published by //-V1042
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
@@ -87,15 +87,15 @@ int reject(const int64 *z) {
 
 
 int
-sign(unsigned char *h, int64 *z, const int64 *key, const unsigned char *message, const unsigned long long int msglen,
-     enum algname scheme) {
+sign(unsigned char *h, int64 *z, const int64 *key, const int64 *pk, const unsigned char *message,
+     const unsigned long long int msglen, enum algname scheme) {
     int count;
     b_sparse_poly c;
     int64 y[PASS_N];
     int64 Fy[PASS_N];
-//    unsigned char msg_digest[HASH_BYTES];
+    unsigned char msg_digest[HASH_BYTES] = {0};
 
-//    crypto_hash_sha512(msg_digest, message, msglen);
+    crypto_hash_sha512(msg_digest, message, msglen);
 
     count = 0;
     do {
@@ -103,7 +103,7 @@ sign(unsigned char *h, int64 *z, const int64 *key, const unsigned char *message,
 
         mknoise(y);
         ntt(Fy, y);
-        hashc(h, Fy, message, msglen, scheme);
+        hashc(h, Fy, pk, msg_digest, HASH_BYTES, scheme);
 
         CLEAR(c.val);
         formatc(&c, h);

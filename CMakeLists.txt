@@ -27,3 +27,4 @@ set(PASS_SRC
 include_directories(src)
 
 add_executable(MMSAT ${PASS_SRC})
+

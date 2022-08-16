@@ -44,8 +44,8 @@ int mknoise(int64 *y);
 int reject(const int64 *z);
 
 int
-sign(unsigned char *h, int64 *z, const int64 *key, const unsigned char *message, const unsigned long long int msglen,
-     enum algname scheme);
+sign(unsigned char *h, int64 *z, const int64 *key, const int64 *pk, const unsigned char *message,
+     const unsigned long long int msglen, enum algname scheme);
 
 int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pubkey, const unsigned char *message,
                          uint64 msglen, enum algname scheme);

@@ -6,7 +6,7 @@
  *  This file is part of CPASSREF.
  *
  *  CPASSREF is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
+ *  it under the terms of the GNU General Public License as published by //-V1042
  *  the Free Software Foundation, either version 2 of the License, or
  *  (at your option) any later version.
  *
@@ -57,8 +57,8 @@ int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pu
 
     poly_cmod(Fz);
 
-//    crypto_hash_sha512(msg_digest, message, msglen);
-    hashc(h2, Fz, message, msglen, scheme);
+    crypto_hash_sha512(msg_digest, message, msglen);
+    hashc(h2, Fz, pubkey, msg_digest, HASH_BYTES, scheme);
 
     for (i = 0; i < HASH_BYTES; i++) {
         if (h2[i] != h[i])
