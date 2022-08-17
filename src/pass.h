@@ -50,8 +50,10 @@ sign(unsigned char *h, int64 *z, const int64 *key, const int64 *pk, const unsign
 int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pubkey, const unsigned char *message,
                          uint64 msglen, enum algname scheme);
 
-int agregate();
+int
+agregate(const int64 *coms, const int64 *zs, const unsigned char *msg_digests, const int64 *pks, const uint64 sign_num);
 
-int verify();
+int
+verify_agregate(const int64 *z, const unsigned char *msg_digests, const int64 *pks, const int64 *coms, uint64 sign_num);
 
 #endif

@@ -60,9 +60,9 @@ int crypto_sign_open(unsigned char *h, long long int *z, const unsigned char *sm
 
 
 int crypto_aggregate() {
-    return agregate();
+    return agregate(NULL, NULL, NULL, NULL, 0);
 }
 
 int crypto_aggregated_open() {
-    return verify();
+    return verify_agregate(NULL, NULL, NULL, NULL, 0);
 }

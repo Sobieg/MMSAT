@@ -67,7 +67,16 @@ int verify_one_signature(const unsigned char *h, const int64 *z, const int64 *pu
 
     return VALID;
 }
-
-int verify() {
+/**
+ *
+ * @param z
+ * @param msg_digests mu
+ * @param pks f^hat
+ * @param coms y^hat
+ * @param sign_num K
+ * @return
+ */
+int verify_agregate(const int64 *z, const unsigned char *msg_digests, const int64 *pks, const int64 *coms,
+                    uint64 sign_num) {
     return INVALID;
 }
