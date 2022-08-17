@@ -24,4 +24,6 @@
 
 int formatc(b_sparse_poly *c, const unsigned char *digest);
 
+int mmsa_formatc(b_sparse_poly *c, const unsigned char* digest);
+
 #endif

@@ -105,8 +105,15 @@ sign(unsigned char *h, int64 *z, const int64 *key, const int64 *pk, const unsign
         ntt(Fy, y);
         hashc(h, Fy, pk, msg_digest, HASH_BYTES, scheme);
 
-        CLEAR(c.val);
-        formatc(&c, h);
+        if (scheme == PASS) {
+            CLEAR(c.val);
+            formatc(&c, h);
+        }
+        else if (scheme == MMSA) {
+            CLEAR(c.val);
+            mmsa_formatc(&c, h);
+        }
+
 
         /* z = y += f*c */
         bsparseconv(y, key, &c);

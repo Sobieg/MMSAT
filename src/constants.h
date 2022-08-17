@@ -78,6 +78,35 @@
 
 //todo: new parameters from MMSAT paper
 
+#ifndef MMSA_PARAMSET
+//table 19 on page 60 in paper. PARAMSET is number of line in this table
+#define MMSA_PARAMSET 1
+#endif
+
+#if MMSA_PARAMSET == 1
+//#define MMSA_SECURITY 128
+//#define MMSA_Bk 3
+//#define MMSA_Bq 0.25
+//#define MMSA_t (0.33333 * MMSA_N)
+//#define MMSA_Prob 0.25
+
+#define MMSA_K 1000
+#define MMSA_N 4111
+#define MMSA_q //?
+#define MMSA_t 1370
+#define MMSA_df 1370
+#define MMSA_dc 14
+#define MMSA_k 83047
+#define MMSA_b 28
+#define MMSA_beta 484
+#define MMSA_deltaBKZ //?
+#define MMSA_deltaForge //?
+#define MMSA_deltaUSBP_08 //?
+#define MMSA_KEYSIZE 4266
+#define MMSA_SIGSIZE 8398
+#define MMSA_AGGSIGSIZE (1024*49)
+#endif
+
 
 #define UNSAFE_RAND_N (65536 - (65536 % PASS_N))
 #define UNSAFE_RAND_k (65536 - (65536 % (2 * PASS_k + 1)))
